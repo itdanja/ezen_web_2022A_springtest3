@@ -5,10 +5,11 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity // 일반클래스 -> jpa entity 으로 사용
+
 @Builder
-@Getter@Setter@ToString
-@Table(name = "Membertest")
+@Getter
+@Entity // 일반클래스 -> jpa entity 으로 사용
+@Table(name = "membertest")
 public class MemberEntitiy {
 
     @Id // pk 설정

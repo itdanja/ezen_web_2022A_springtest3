@@ -1,5 +1,7 @@
 package springtest3.controller;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpRequest;
@@ -9,6 +11,8 @@ import springtest3.domain.dto.MemberDto;
 import springtest3.service.Indexservice;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Controller
 public class IndexController {
@@ -65,12 +69,26 @@ public class IndexController {
         return result;
     }
     @GetMapping("/read")
-    @ResponseBody
-    public String read(){
+    public void read(HttpServletResponse response ){
 
-        indexservice.read();
+        List<MemberDto> dtos =  indexservice.read();
 
-        return "불러오기 성공";
+        JSONArray jsonArray = new JSONArray();
+        // json 형변환
+        for ( MemberDto dto :  dtos ){
+            JSONObject object = new JSONObject();
+            object.put( "no" , dto.getNo() );
+            object.put( "name" , dto.getName() );
+            object.put( "phone" , dto.getPhone() );
+            object.put( "memo" , dto.getMemo() );
+            jsonArray.put( object );
+        }
+        try {
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json");
+            response.getWriter().print(jsonArray);
+        }catch( Exception e ){ System.out.println(e);}
+
     }
     @PutMapping("/update")
     @ResponseBody
