@@ -7,9 +7,9 @@ import javax.persistence.*;
 
 
 @Builder
-@Getter
-@Entity // 일반클래스 -> jpa entity 으로 사용
-@Table(name = "membertest")
+@Getter @Setter
+@AllArgsConstructor @NoArgsConstructor
+@Entity // 해당 클래스를 엔티티[ DB내 테이블과 매핑 ] 로 사용
 public class MemberEntitiy {
 
     @Id // pk 설정
